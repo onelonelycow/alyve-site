@@ -1284,12 +1284,16 @@
   }
 
 
-    /* Gentle floating hero; independent of the wrapper's scroll fade. */
-  .hero-can img { transform: translateY(-32px); animation: hero-gentle-bob 6s ease-in-out infinite; }
-  .hero-can::after { bottom: 16px; opacity: .65; animation: hero-float-shadow 6s ease-in-out infinite; }
-  @keyframes hero-gentle-bob { 0%, 100% { transform: translateY(-32px); } 50% { transform: translateY(-42px); } }
-  @keyframes hero-float-shadow { 0%, 100% { opacity: .65; transform: translateX(-38%) scale(1); } 50% { opacity: .45; transform: translateX(-38%) scale(.9); } }
-  @media (prefers-reduced-motion: reduce) { .hero-can img, .hero-can::after { animation: none; } }
+    /* Raised hero at rest; a larger float only over the can itself. */
+  .hero-can img { transform: translateY(-32px); pointer-events: auto; }
+  .hero-can::after { bottom: 16px; opacity: .65; }
+  @media (hover: hover) and (pointer: fine) {
+    .hero-can img:hover { animation: hero-gentle-bob 3.6s ease-in-out infinite; }
+    .hero-can:has(img:hover)::after { animation: hero-float-shadow 3.6s ease-in-out infinite; }
+  }
+  @keyframes hero-gentle-bob { 0%, 100% { transform: translateY(-32px); } 50% { transform: translateY(-56px); } }
+  @keyframes hero-float-shadow { 0%, 100% { opacity: .65; transform: translateX(-38%) scale(1); } 50% { opacity: .35; transform: translateX(-38%) scale(.82); } }
+  @media (prefers-reduced-motion: reduce) { .hero-can img:hover, .hero-can:has(img:hover)::after { animation: none; } }
 </style>
 
 <div class="botanical-ground" aria-hidden="true">
