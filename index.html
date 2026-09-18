@@ -1285,6 +1285,8 @@
 
 
     /* Raised hero at rest; a larger float only over the can itself. */
+  /* Reserve the 56px hover lift plus 24px clearance below the CTA. */
+  .hero { row-gap: 80px; }
   .hero-can img { transform: translateY(-32px); pointer-events: auto; }
   .hero-can::after { bottom: 16px; opacity: .65; }
   @media (hover: hover) and (pointer: fine) {
