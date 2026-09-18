@@ -200,12 +200,18 @@
 
      Proximity rather than mandatory: it pulls the scroll onto a screen edge
      when the reader stops near one and otherwise leaves them alone, so the
-     long pages further down are untouched. Only these two elements carry
+     long pages further down are untouched. The opening pairs on Home and About carry
      scroll-snap-align, so nothing else in the document snaps. scroll-margin-top
      is the sticky nav's height, so a snapped section sits under the bar rather
      than behind it. */
   html { scroll-snap-type: y proximity; }
-  .hero, #inside { scroll-snap-align: start; scroll-margin-top: var(--nav-h); }
+  .hero, #inside, #about > section:nth-child(-n + 2) {
+    scroll-snap-align: start; scroll-margin-top: var(--nav-h);
+  }
+  #about > .about-open {
+    min-height: calc(100vh - var(--nav-h));
+    min-height: calc(100svh - var(--nav-h));
+  }
   @media (prefers-reduced-motion: reduce) { html { scroll-snap-type: none; } }
   /* ---------- Hero / PDP ---------- */
   .hero {
@@ -1853,26 +1859,25 @@
   })();
 
   (function () {
-    // Fades the hero can out as "What Is ALYVE" rises into view, so that by the time
-    // the section heading is anywhere near the top of the screen there is no can left
-    // to see. Driven by geometry on every scroll, for the same reason as syncCtas
-    // above: it must be correct wherever the reader happens to stop, not only at the
-    // snap point. Fully visible while #inside is below the fold; gone once its top
-    // has climbed to 30% of the viewport height, a slower fade than the first pass
-    // (55%), which the reader felt was too abrupt.
-    var can = document.querySelector('.hero-can');
-    var inside = document.getElementById('inside');
-    if (!can || !inside) return;
-    function fadeCan() {
-      var top = inside.getBoundingClientRect().top;
-      var vh = window.innerHeight;
-      var t = (vh - top) / (vh * 0.7);
-      var o = 1 - Math.min(1, Math.max(0, t));
-      can.style.opacity = o.toFixed(3);
+    // Fade the opening image as the next section enters, matching the home
+    // transition on About. Geometry keeps the fade correct in both directions.
+    var transitions = [
+      { image: document.querySelector('.hero-can'), next: document.getElementById('inside') },
+      { image: document.querySelector('#about .about-shot'), next: document.querySelector('#about > section:nth-child(2)') }
+    ];
+    function fadeOpeningImages() {
+      transitions.forEach(function (transition) {
+        if (!transition.image || !transition.next) return;
+        if (!transition.next.getClientRects().length) return;
+        var top = transition.next.getBoundingClientRect().top;
+        var t = (window.innerHeight - top) / (window.innerHeight * 0.7);
+        transition.image.style.opacity = (1 - Math.min(1, Math.max(0, t))).toFixed(3);
+      });
     }
-    window.addEventListener('scroll', fadeCan, { passive: true });
-    window.addEventListener('resize', fadeCan);
-    fadeCan();
+    window.addEventListener('scroll', fadeOpeningImages, { passive: true });
+    window.addEventListener('resize', fadeOpeningImages);
+    window.addEventListener('hashchange', fadeOpeningImages);
+    fadeOpeningImages();
   })();
 
   (function () {
