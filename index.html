@@ -1295,6 +1295,15 @@
   @keyframes hero-float-shadow { 0%, 100% { opacity: .65; transform: translateX(-38%) scale(1); } 50% { opacity: .35; transform: translateX(-38%) scale(.82); } }
   @media (prefers-reduced-motion: reduce) { .hero-can img:hover, .hero-can:has(img:hover)::after { animation: none; } }
 </style>
+<style id="clean-background-preview">
+.bot, .drift-layer, .drift-dot { display: none !important; }
+.botanical-ground { background: radial-gradient(ellipse at 18% 0%,rgba(239,204,131,.19),transparent 57%),linear-gradient(180deg,#fffdf4,#faf7ec); }
+.bg-botanical::before { opacity: .22; }
+.botanical-ground::before,.botanical-ground::after { content:"";position:absolute;pointer-events:none;width:620px;height:620px;border:1px solid rgba(166,125,69,.12);border-radius:46% 54% 65% 35%;box-shadow:0 0 0 24px rgba(166,125,69,.035),0 0 0 48px rgba(166,125,69,.025); }
+.botanical-ground::before {left:-500px;top:12%;transform:rotate(-25deg);}
+.botanical-ground::after {right:-510px;bottom:-210px;transform:rotate(35deg);}
+@media(max-width:700px){.botanical-ground::before{left:-570px}.botanical-ground::after{right:-565px}}
+</style>
 
 <div class="botanical-ground" aria-hidden="true">
   <span class="bot" style="--x:4%;--y:14%;--s:1.35;--r:-12deg;--o:0.2"><svg viewBox="0 0 180 145" aria-hidden="true"><path d="M20 124C60 106 116 70 164 30M36 114L67 126M36 114L37 80M56 101L86 113M56 101L57 69M76 88L103 99M76 88L77 59M96 74L120 83M96 74L97 48M116 60L136 68M116 60L117 38M134 47L151 54M134 47L134 29M150 36L163 41M150 36L150 22"/></svg></span>
