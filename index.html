@@ -1340,7 +1340,15 @@ html{scroll-snap-type:none}#home{overflow:hidden}#home .hero{background:none;dis
 #home .flavor:focus-visible{outline:2px solid #a58043;outline-offset:8px;border-radius:8px}
 @media(prefers-reduced-motion:reduce){#home *,#home *:before,#home *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
-<nav class="nav" id="site-nav">
+<style id="spacious-navigation">
+@media(min-width:721px){
+#site-nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:48px;max-width:1240px;width:calc(100% - 80px)}
+#site-nav .nav-mark{justify-self:start}
+#site-nav .nav-right{display:contents}
+#site-nav .nav-links{justify-self:center}
+#site-nav .nav-shop-btn{justify-self:end}
+}
+</style><nav class="nav" id="site-nav">
   <div class="wrap">
     <a href="#home" data-page="home" class="nav-mark">ALYVE</a>
     <div class="nav-right">
@@ -2043,4 +2051,16 @@ html.home-story-snap{scroll-snap-type:y proximity;scroll-padding-top:var(--story
 </style>
 <script>
 (()=>{const home=document.getElementById('home'),nav=document.getElementById('site-nav');function sync(){document.documentElement.classList.toggle('home-story-snap',home.classList.contains('active'));document.documentElement.style.setProperty('--story-nav-height',(nav.getBoundingClientRect().height)+'px')}sync();new MutationObserver(sync).observe(home,{attributes:true,attributeFilter:['class']});new ResizeObserver(sync).observe(nav)})();
-</script>
+</script><style id="dedicated-home-sections">
+@media(min-width:901px){
+html.home-story-snap{scroll-snap-type:y mandatory}
+#home .hero{scroll-margin-top:0;scroll-snap-align:start}
+#home .home-story,#home #flavors,#home .photo-story,#home .end{min-height:calc(100dvh - var(--opening-nav-height,74px));scroll-snap-align:start;scroll-margin-top:0;box-sizing:border-box}
+#home .home-story{justify-content:space-evenly}
+#home #flavors{display:flex;flex-direction:column;justify-content:center;padding-top:48px;padding-bottom:48px}
+#home .photo-story{align-content:center;padding-top:48px;padding-bottom:48px}
+#home .end{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px}
+#home #flavors .flavor img{max-height:52dvh;object-fit:cover}
+}
+@media(prefers-reduced-motion:reduce){html.home-story-snap{scroll-snap-type:none}}
+</style>
